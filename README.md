@@ -36,44 +36,28 @@ The fold structure as follow:
 	
 
 ## Environment
-- pytorch 0.4.1
-- python3+
-- visdom 
-	- for real-time loss visualization during training!
-	```Shell
-	pip install visdom
-	```
-	- Start the server (probably in a screen or tmux)
-	```Shell
-	python visdom
-	```
-  * Then (during training) navigate to http://localhost:8097/ (see the Train section below for training details).
-
+- conda create --name probiou-ssd python=3.6
+- conda activate probiou-ssd
+- pip install -r requirements.txt
 
 ## Datasets
-- PASCAL VOC:Download VOC2007, VOC2012 dataset, then put VOCdevkit in the data directory
+- PASCAL VOC:Download VOC2007, VOC2012 dataset, then put VOCdevkit in the data directory or run get_voc_dataset.sh in data folder
 
 
 ## Training
 
 ### Training VOC
-- The pretrained model refer [pretrained-models.pytorch](https://github.com/Cadene/pretrained-models.pytorch),you can download it.
-
-- In the DIoU-SSD-pytorch fold:
 ```Shell
-python tools/train.py
+python tools/train.py --loss <loss_type> --work_name <save_path>
 ```
 
-- Note:
-  * For training, default NVIDIA GPU.
-  * You can set the parameters in the train.py (see 'tools/train.py` for options) 
-  * In the config,you can set the work_dir to save your training weight.(see 'configs/config.py`) 
+Also yo can activate python -m visdom.server in an additional tmux window to track the losses.
 
 ## Evaluation
 - To evaluate a trained network:
 
 ```Shell
-python tools/ap.py --trained_model {your_weight_address}
+python tools/ap.py --trained_model {your_weight_address} --ProbIoU [True/False]
 ```
 
 For example: (the output is AP50, AP75 and AP of our CIoU loss)
